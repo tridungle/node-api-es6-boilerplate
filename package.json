@@ -1,0 +1,118 @@
+{
+  "name": "ss_survey_service",
+  "version": "0.0.1",
+  "private": true,
+  "description": "ES6 Node Boilerplate",
+  "main": "start/index.js",
+  "scripts": {
+    "test": "NODE_ENV=test npm run seed && jest --coverage --detectOpenHandles",
+    "test:watch": "NODE_ENV=test jest --watch --coverage",
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "start": "npm run build && npm run seed && npm run migrate && node dist/start/index.js",
+    "start:dev": "nodemon --exec npx babel-node start/index.js",
+    "seed": "babel-node ./database/seeders/seed.js",
+    "lint": "prettier --write '**/*.js' && eslint --fix '**/*.js'",
+    "generate:docs": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json",
+    "migrate": "babel-node ./node_modules/migrate-mongo/bin/migrate-mongo.js up",
+    "migrate:init": "babel-node ./node_modules/migrate-mongo/bin/migrate-mongo.js",
+    "migrate:rollback": "babel-node ./node_modules/migrate-mongo/bin/migrate-mongo.js down"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true,
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "./dist",
+      "./docs"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "html",
+      "text-summary"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    },
+    "globalSetup": "./test/config/setup.js",
+    "globalTeardown": "./test/config/teardown.js"
+  },
+  "keywords": [
+    "surveysaurus",
+    "nodejs",
+    "mongoose",
+    "mongodb"
+  ],
+  "author": "Survey Saurus",
+  "license": "ISC",
+  "dependencies": {
+    "@meanie/mongoose-upsert-many": "^2.1.0",
+    "babel-jest": "^26.3.0",
+    "babel-node": "0.0.1-security",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6",
+    "helmet": "^4.4.1",
+    "jest-extended": "^0.11.5",
+    "joi": "^17.2.1",
+    "joi-objectid": "^3.0.1",
+    "lodash": "^4.17.21",
+    "migrate-mongo": "^8.1.2",
+    "mongoose": "^5.10.6",
+    "mongoose-delete": "^0.5.2",
+    "proxy-addr": "^2.0.6",
+    "supertest-as-promised": "^4.0.2",
+    "winston": "^3.3.3",
+    "xss": "^1.0.8",
+    "youch": "^2.1.1",
+    "youch-terminal": "^1.0.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/node": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-import-resolver-babel-module": "^5.1.2",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-module-resolver": "^0.16.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "faker": "^4.1.0",
+    "husky": "^4.3.0",
+    "jest": "^26.4.2",
+    "jsdoc": "^3.6.6",
+    "lint-staged": "^10.4.0",
+    "nodemon": "^2.0.2",
+    "prettier": "2.0.5",
+    "rimraf": "^3.0.2",
+    "sinon": "^9.0.3",
+    "supertest": "^4.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "prettier --write"
+    ]
+  }
+}
